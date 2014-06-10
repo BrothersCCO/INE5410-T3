@@ -20,8 +20,8 @@ public class Livro {
 		return tempoLeitura;
 	}
 	
-	public void tryLock() {
-		lock.tryLock();
+	public boolean tryLock() {
+		return lock.tryLock();
 	}
 	
 	public void unlock() {
