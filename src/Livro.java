@@ -4,7 +4,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Livro {
 	public final String nome;
 	public final int tempoLeitura;
-	private Lock lock;
+	public final Lock lock;
 
 	public Livro(String nome, int tempoLeitura) {
 		this.nome = nome;
@@ -12,8 +12,14 @@ public class Livro {
 		this.lock = new ReentrantLock();
 	}
 	
-	public boolean tryLock() {
-		return lock.tryLock();
+	public void ler() {
+		lock.lock();
+		try {
+			Thread.sleep(this.tempoLeitura);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		lock.unlock();
 	}
 	
 	public void unlock() {

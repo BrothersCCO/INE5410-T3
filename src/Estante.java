@@ -4,8 +4,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Estante {
-	List<Livro> livros;
-	List<Lock> locks;
+	public final List<Livro> livros;
+	private final List<Lock> locks;
 	
 	public Estante(List<Livro> livros) {
 		this.livros = livros;
@@ -15,11 +15,8 @@ public class Estante {
 		}
 	}
 	
-	public Livro pegarLivro(int index) throws IllegalAccessException {
-		if (locks.get(index).tryLock()) {
-			return livros.get(index);
-		}
-		throw new java.lang.IllegalAccessException("Livro ocupado!");
+	public boolean pegarLivro(Livro livro) {
+		return locks.get(livros.indexOf(livro)).tryLock();
 	}
 	
 	public void devolverLivro(Livro livro) {
