@@ -3,8 +3,8 @@ import java.util.List;
 
 
 public class Aluno extends Thread {
-	private String nome;
-	private Equipe equipe;
+	public final String nome;
+	public final Equipe equipe;
 	private List<Livro> lidos;
 	
 	public Aluno(String nome, Equipe equipe) {
