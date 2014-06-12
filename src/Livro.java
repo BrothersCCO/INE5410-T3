@@ -2,9 +2,9 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Livro {
-	public final String nome;
+	private String nome;
 	public final int tempoLeitura;
-	public final Lock lock;
+	private Lock lock;
 
 	public Livro(String nome, int tempoLeitura) {
 		this.nome = nome;
@@ -12,17 +12,30 @@ public class Livro {
 		this.lock = new ReentrantLock();
 	}
 	
-	public void ler() {
+	public String getNome() {
+		return nome;
+	}
+	
+	public void tryLock() {
+		lock.tryLock();
+	}
+	
+	public void lock() {
 		lock.lock();
-		try {
-			Thread.sleep(this.tempoLeitura);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		lock.unlock();
 	}
 	
 	public void unlock() {
 		lock.unlock();
+	}
+
+	public boolean equals(Object obj) {
+		if (obj instanceof Livro) {
+			return toString() == obj.toString();
+		}
+		return false;
+	}
+
+	public String toString() {
+		return nome;
 	}
 }

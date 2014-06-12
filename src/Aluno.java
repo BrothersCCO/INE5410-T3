@@ -1,10 +1,9 @@
-public class Aluno extends Thread {
+public class Aluno implements Runnable {
+	protected String nome;
 	protected Equipe equipe;
-	private int livrosLidos;
-	
+
 	public Aluno(String nome) {
-		super(nome);
-		this.livrosLidos = 0;
+		this.nome = nome;
 	}
 
 	public void setEquipe(Equipe equipe) {
@@ -12,13 +11,14 @@ public class Aluno extends Thread {
 	}
 
 	public void run() {
-		while (livrosLidos < 5) {
-			try {
-				//esperar?
-			} catch (InterruptedException e) {
-				System.out.println(getName());
-				equipe.getLivroAtual().ler();
-			}
+		equipe.getLivroAtual().lock();
+		System.out.println(nome + " vai ler "
+				+ equipe.getLivroAtual().getNome());
+		try {
+			Thread.sleep(equipe.getLivroAtual().tempoLeitura * Main.fatorTempo);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		equipe.getLivroAtual().unlock();
 	}
 }
