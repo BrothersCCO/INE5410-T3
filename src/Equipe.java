@@ -7,6 +7,7 @@ public class Equipe {
 	public final Lider lider;
 	private Livro livroAtual;
 	public final List<Livro> livrosLidos;
+	private List<Thread> threads;
 
 	public Equipe(String nome, Lider lider, Estante estante) {
 		this.nome = nome;
@@ -40,18 +41,25 @@ public class Equipe {
 				return false;
 		return true;
 	}
+	
+	public void suspend() {
+		for (Thread th : threads) {
+			th.stop();
+		}
+		lider.stop();
+	}
 
 	public void pegouLivro() {
-		List<Thread> alunos = new ArrayList<Thread>(this.alunos.size());
+		threads = new ArrayList<Thread>(alunos.size());
 		Thread aux;
 		
-		for (Aluno aluno : this.alunos) {
+		for (Aluno aluno : alunos) {
 			aux = new Thread(aluno);
-			alunos.add(aux);
+			threads.add(aux);
 			aux.start();
 		}
 		
-		while (!todosLeram(alunos)) {
+		while (!todosLeram(threads)) {
 		}
 		
 		System.out.println(nome + " terminou de ler " + livroAtual);
