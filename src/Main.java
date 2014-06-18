@@ -43,13 +43,16 @@ public class Main {
 			equipe.lider.start();
 		}
 
+		final List<Equipe> todas = new ArrayList<Equipe>(equipes);
 		Thread controle = new Thread() {
 			public void run() {
 				try {
-					for (int i = 0; i < 200; ++i) {
-						Thread.sleep(Main.fatorTempo);
-						System.err.println("==> Já se passou " + (i + 1)
-								+ " unidade de tempo.");
+					Thread.sleep(200 * Main.fatorTempo);
+					for (Equipe equipe : todas) {
+						equipe.suspend();
+						System.out.println(equipe.getNome()
+								+ "\nLivros lidos: "
+								+ equipe.livrosLidos.size());
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -61,17 +64,10 @@ public class Main {
 		while (!equipes.isEmpty() && controle.isAlive()) {
 			for (Equipe equipe : equipes) {
 				if (!equipe.lider.isAlive()) {
-					System.err.println("\n\nUMA DAS EQUIPES FOI REMOVIDA\n\n");
 					equipes.remove(equipe);
+					break;
 				}
 			}
-		}
-
-		System.out.println("\nHooray!\n");
-
-		for (Equipe equipe : equipes) {
-			System.err.println(equipe.getNome());
-			System.out.println("Livros lidos: " + equipe.livrosLidos.size());
 		}
 	}
 }
