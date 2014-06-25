@@ -16,6 +16,7 @@ public class Equipe {
 		lider.setEstante(estante);
 		this.lider = lider;
 		this.livrosLidos = new ArrayList<Livro>(5);
+		this.threads = new ArrayList<Thread>(3);
 	}
 
 	public void addAluno(Aluno aluno) {
@@ -36,19 +37,9 @@ public class Equipe {
 	}
 	
 	public boolean todosLeram(List<Thread> alunos) {
-		for (Thread aluno : alunos)
-			if (aluno.isAlive())
-				return false;
-		return true;
+		return threads.size() == 0;
 	}
 	
-	public void suspend() {
-		for (Thread th : threads) {
-			th.stop();
-		}
-		lider.stop();
-	}
-
 	public void pegouLivro() {
 		threads = new ArrayList<Thread>(alunos.size());
 		Thread aux;
@@ -60,8 +51,14 @@ public class Equipe {
 		}
 		
 		while (!todosLeram(threads)) {
+		  for (Thread th : threads) {
+    		if (!th.isAlive()) {
+    			threads.remove(th);
+    			break;
+    		}
+		  }
 		}
 		
-		System.out.println(nome + " terminou de ler " + livroAtual);
+		//System.out.println(nome + " terminou de ler " + livroAtual);
 	}
 }

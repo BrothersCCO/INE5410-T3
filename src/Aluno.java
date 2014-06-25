@@ -12,8 +12,8 @@ public class Aluno implements Runnable {
 
 	public void run() {
 		equipe.getLivroAtual().lock();
-		System.out.println(nome + " vai ler "
-				+ equipe.getLivroAtual().getNome());
+		/*System.out.println(nome + " vai ler "
+				+ equipe.getLivroAtual().getNome());*/
 		try {
 			Thread.sleep(equipe.getLivroAtual().tempoLeitura * Main.fatorTempo);
 		} catch (InterruptedException e) {

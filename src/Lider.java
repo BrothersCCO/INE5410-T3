@@ -23,7 +23,6 @@ public class Lider extends Thread {
 		try {
 			this.estante.devolverLivro(this.aluno.equipe.getLivroAtual());
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -39,7 +38,6 @@ public class Lider extends Thread {
 						return livro;
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 		}
@@ -58,8 +56,9 @@ public class Lider extends Thread {
 			
 			aluno.equipe.livrosLidos.add(livro);
 
+			livro.lido();
 			devolverLivro();
-			System.out.println(aluno.nome + " devolveu " + livro.getNome());
+			//System.out.println(aluno.nome + " devolveu " + livro.getNome());
 		}
 	}
 }
